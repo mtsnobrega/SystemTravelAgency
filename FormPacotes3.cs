@@ -21,7 +21,7 @@ namespace SystemTravelAgency
             _fp2 = fp2; // Usar a instância existente de FormPacotes2
         }
 
-        private void btnAddCusto_Click(object sender, EventArgs e)
+        private void BtnAddCusto_Click(object sender, EventArgs e)
         {
             // Validação dos campos
             if (string.IsNullOrWhiteSpace(txtTipoCusto.Text) ||
@@ -47,31 +47,22 @@ namespace SystemTravelAgency
             double CustoValor = double.Parse(txtValorCusto.Text);
 
             // Criar novo objeto CustoAdicional
-            CustoAdicional novoCusto = new CustoAdicional(CustoTipo, CustoNome, CustoDocs, CustoValor);
+          
 
 
             // Criar um novo item de ListView
-            ListViewItem tabelaCusto = new ListViewItem(new[]
-            {
-                novoCusto.CustoTipo,
-                novoCusto.CustoNome,
-                novoCusto.CustoValor.ToString(),
-                novoCusto.CustoDocs,
-                
-            });
 
-            // Adicionar item ao ListView em FormPacotes2
-            _fp2.TabelaCusto.Items.Add(tabelaCusto);
+           
 
             // Fechar o formulário atual
             this.Close();
         }
-        private void btncancelarcusto_Click(object sender, EventArgs e)
+        private void Btncancelarcusto_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void txtTipoCusto_SelectedIndexChanged(object sender, EventArgs e)
+        private void TxtTipoCusto_SelectedIndexChanged(object sender, EventArgs e)
         {
             if((txtTipoCusto.SelectedItem != null))
             {

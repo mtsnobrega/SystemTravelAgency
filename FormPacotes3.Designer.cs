@@ -66,7 +66,7 @@
             this.btncancelarcusto.TabIndex = 6;
             this.btncancelarcusto.Text = "Cancelar";
             this.btncancelarcusto.UseVisualStyleBackColor = true;
-            this.btncancelarcusto.Click += new System.EventHandler(this.btncancelarcusto_Click);
+            this.btncancelarcusto.Click += new System.EventHandler(this.Btncancelarcusto_Click);
             // 
             // btnAddCusto
             // 
@@ -77,7 +77,7 @@
             this.btnAddCusto.TabIndex = 5;
             this.btnAddCusto.Text = "Adicionar";
             this.btnAddCusto.UseVisualStyleBackColor = true;
-            this.btnAddCusto.Click += new System.EventHandler(this.btnAddCusto_Click);
+            this.btnAddCusto.Click += new System.EventHandler(this.BtnAddCusto_Click);
             // 
             // label2
             // 
@@ -197,6 +197,7 @@
             // txtTipoCusto
             // 
             this.txtTipoCusto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTipoCusto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.txtTipoCusto.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTipoCusto.FormattingEnabled = true;
             this.txtTipoCusto.Items.AddRange(new object[] {
@@ -211,7 +212,7 @@
             this.txtTipoCusto.Name = "txtTipoCusto";
             this.txtTipoCusto.Size = new System.Drawing.Size(286, 33);
             this.txtTipoCusto.TabIndex = 7;
-            this.txtTipoCusto.SelectedIndexChanged += new System.EventHandler(this.txtTipoCusto_SelectedIndexChanged);
+            this.txtTipoCusto.SelectedIndexChanged += new System.EventHandler(this.TxtTipoCusto_SelectedIndexChanged);
             // 
             // FormPacotes3
             // 
