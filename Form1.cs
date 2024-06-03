@@ -27,32 +27,48 @@ namespace SystemTravelAgency
         {
             string user = txtuser.Text;
             string passwd = txtpasswd.Text;
-
-            if (user == "" && passwd == "")
+            try
             {
-         
+                if (user == "ParaisoTropical" && passwd == "@melhorsistema")
+                {
+                    Home form2 = new Home();
+                    form2.Show();
+                    this.Hide();
+                    //Funcionando, levando ao form "Home"
 
+                }
+                else if (user == passwd)
+                {
+                    MessageBox.Show("Nome de Usuario e Senha NÂO podem ser iguais");
+                    //MELHORAR A MENSAGEM DE ERRO
+                }
+                else
+                {
+                    MessageBox.Show("Nome de Usuario ou Senha incorretos");
+                    //MELHORAR A MENSAGEM DE ERRO
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
                 
-                Home form2 = new Home();
-                form2.Show();
-                this.Hide();
-                //Funcionando, levando ao form "Home"
 
-            }
-            else if (user == passwd)
-            {
-                MessageBox.Show("Nome de Usuario e Senha NÂO podem ser iguais");
-                //MELHORAR A MENSAGEM DE ERRO
-            }
+
+
+            
+           
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+                txtpasswd.PasswordChar = '\0';
             else
-            {
-                MessageBox.Show("Nome de Usuario ou Senha incorretos");
-                //MELHORAR A MENSAGEM DE ERRO
-            }
-
-
-
-
+                txtpasswd.PasswordChar = '*';
         }
     }
 }

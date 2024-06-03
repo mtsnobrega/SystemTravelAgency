@@ -16,8 +16,7 @@ namespace SystemTravelAgency
         public FormCadastro2()
         {
             InitializeComponent();
-            Btnexcluir.Enabled = false;
-           
+            Btnexcluir.Enabled = false; 
         }
        
         private void Btnpesquisar_Click(object sender, EventArgs e)
@@ -50,13 +49,13 @@ namespace SystemTravelAgency
                         txtgeneroBD.Text = reader["genero"].ToString();
 
                         lblsituacao.Text = "Cliente Já Cadastrado";
-                        lblsituacao.ForeColor = Color.Green;
+                        lblsituacao.ForeColor = Color.White;
 
                         Btnexcluir.Enabled = true;
                     }
                     else
                     {
-                        MessageBox.Show("Cliente não ola mundo Cadastrado");
+                        MessageBox.Show("Cliente Não Cadastrado");
                     }
                 }
                 else
@@ -67,7 +66,7 @@ namespace SystemTravelAgency
             catch (Exception ex)
             {
 
-                MessageBox.Show("Essa bosta nã funcionou" + ex.Message);
+                MessageBox.Show("Erro ao se conectar ao Banco de Dados Contate o Suporte" + ex.Message);
             }
         }
 

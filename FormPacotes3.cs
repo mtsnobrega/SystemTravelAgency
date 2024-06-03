@@ -1,10 +1,10 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,73 +13,135 @@ namespace SystemTravelAgency
 {
     public partial class FormPacotes3 : Form
     {
-        private FormPacotes2 _fp2;
-
-        public FormPacotes3(FormPacotes2 fp2)
+        public FormPacotes3()
         {
             InitializeComponent();
-            _fp2 = fp2; // Usar a instância existente de FormPacotes2
+            Btnexcluir.Enabled = false;
         }
 
-        private void BtnAddCusto_Click(object sender, EventArgs e)
+        private void Btnpesquisarpacote_Click(object sender, EventArgs e)
         {
-            // Validação dos campos
-            if (string.IsNullOrWhiteSpace(txtTipoCusto.Text) ||
-                string.IsNullOrWhiteSpace(txtnNomeCusto.Text) ||
-                string.IsNullOrWhiteSpace(txtDocs.Text) ||
-                string.IsNullOrWhiteSpace(txtValorCusto.Text))
+            try
             {
-                MessageBox.Show("Por favor, preencha todos os campos.");
-                return;
-            }
+                Viagem pacotecadastrado = new Viagem();
+                pacotecadastrado.DocPacote = txtdocpacote.Text;
 
-            // Conversão segura do valor
-            if (!double.TryParse(txtValorCusto.Text, out double custoValor))
-            {
-                MessageBox.Show("Por favor, insira um valor válido para o custo.");
-                return;
-            }
+                MySqlDataReader reader = pacotecadastrado.LocalizarPacote();
 
-            // Coletar dados dos campos de texto
-            string CustoTipo = txtTipoCusto.Text;
-            string CustoNome = txtnNomeCusto.Text;
-            string CustoDocs = txtDocs.Text;
-            double CustoValor = double.Parse(txtValorCusto.Text);
-
-            // Criar novo objeto CustoAdicional
-          
-
-
-            // Criar um novo item de ListView
-
-           
-
-            // Fechar o formulário atual
-            this.Close();
-        }
-        private void Btncancelarcusto_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void TxtTipoCusto_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if((txtTipoCusto.SelectedItem != null))
-            {
-
-                if(txtTipoCusto.SelectedItem.ToString() != "Motorista" && txtTipoCusto.SelectedItem.ToString() != "Seguro")
+                if (reader != null)
                 {
-                    label3.Text = "Doc. não necessário";
-                    txtDocs.Text = "Doc. não necessário";
-                    txtDocs.Enabled = false;
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        txtviagemBD.Text = reader["TipoViagem"].ToString();
+                        txtveiculoBD.Text = reader["TipoVeiculo"].ToString();
+                        txttipoviagem.Text = reader["TipoPassagem"].ToString();
+                        BDembarqueida.Text = reader["EmbarqueIDA"].ToString();
+
+                        DateTime dataembarque = reader.GetDateTime(reader.GetOrdinal("DataIDA"));
+                        BDdataida.Text = dataembarque.ToString("dd-MM-yyyy");
+
+                        BDhoraida.Text = reader["HoraIDA"].ToString();
+                        BDembarquevolta.Text = reader["EmbarqueVOLTA"].ToString();
+
+                        DateTime dataembarquevolta = reader.GetDateTime(reader.GetOrdinal("DataVOLTA"));
+                        BDdatavolta.Text = dataembarquevolta.ToString("dd-MM-yyyy");
+
+                        BDhoravolta.Text = reader["HoraVolta"].ToString();
+                        BDenderecohotel.Text = reader["NomeHotel"].ToString();
+                        BDcafe.Text = reader["TipoQuarto"].ToString();
+                        BDqtdpassagem.Text = reader["QtdPassagem"].ToString();
+                        BDpassagemvalor.Text = reader["ValorPassagemLucro"].ToString();
+                        BDlucro.Text = reader["Lucro"].ToString();
+                        BDvalorviagem.Text = reader["CustoViagem"].ToString();
+                        BDvalohotel.Text = reader["ValorHotel"].ToString();
+                        BDmotorista.Text = reader["Motorista"].ToString();
+                        BDgasolina.Text = reader["Gasolina"].ToString();
+                        BDpedagio.Text = reader["Pedagio"].ToString();
+                        BDseguro.Text = reader["Seguro"].ToString();
+                        BDtarifa.Text = reader["TarifaAerea"].ToString();
+                        BDcustototal.Text = reader["CustoTotalPacote"].ToString();
+                        BDreceber.Text = reader["ValorTotalLucro"].ToString();
+
+
+                        Btnexcluir.Enabled = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Esse Pacote de Viagem Não foi cadastrado");
+                    }
                 }
                 else
                 {
-                    label3.Text = "Documento";
-                    txtDocs.Enabled = true;
+                    MessageBox.Show("Esse Pacote de Viagem Não foi cadastrado");
                 }
-
             }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("Erro no Banco de Dados Solicitar Suporte" + ex.Message);
+            }
+        }
+
+        private void Btnexcluir_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(txtdocpacote.Text))
+                {
+                    Viagem pacotecadastrado = new Viagem();
+                    pacotecadastrado.DocPacote = txtdocpacote.Text;
+
+
+                    if (pacotecadastrado.DeletarPacotedoBanco())
+                    {
+                        MessageBox.Show("Cliente Excluido com Sucesso");
+                        txtdocpacote.Clear();
+                        txtviagemBD.Clear();
+                        txtveiculoBD.Clear();
+                        txttipoviagem.Clear();
+                        BDembarqueida.Clear();
+                        BDdataida.Clear();
+                        BDhoraida.Clear();
+                        BDembarquevolta.Clear();
+                        BDdatavolta.Clear();
+                        BDhoravolta.Clear();
+                        BDenderecohotel.Clear();
+                        BDcafe.Clear();
+                        BDqtdpassagem.Clear();
+                        BDpassagemvalor.Clear();
+                        BDlucro.Clear();
+                        BDvalorviagem.Clear();
+                        BDvalohotel.Clear();
+                        BDmotorista.Clear();
+                        BDgasolina.Clear();
+                        BDpedagio.Clear();
+                        BDseguro.Clear();
+                        BDtarifa.Clear();
+                        BDcustototal.Clear();
+                        BDreceber.Clear();
+                        Btnexcluir.Enabled = false;
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Erro ao excluir Cliente");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Insira um Documento Valido antes de Excluir um Pacote");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("Falha no banco de dados, contate o suporte " + ex.Message);
+            }
+        }
+        private void Btncancelarpesquisa_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

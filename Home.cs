@@ -13,34 +13,10 @@ namespace SystemTravelAgency
     public partial class Home : Form
     {
         private Form frmAtivo;
-
-        //private List<Cliente> listaClientes = new List<Cliente>();
-
-
-
-
-
-
-
-
-
-
-
         public Home()
         {
             InitializeComponent();
-            //GerarTabela();
         }
-
-
-
-
-
-
-
-
-
-
         private void FormShow(Form frm)
         {
             FormAtivoFechar();
@@ -64,7 +40,7 @@ namespace SystemTravelAgency
             foreach (Control botao in panelbotoes.Controls)
                 botao.ForeColor = Color.White;
 
-            frmAtivo.ForeColor = Color.Red;
+            frmAtivo.ForeColor = Color.Gray;
         }
 
         private void btncadastro_Click(object sender, EventArgs e)
@@ -97,15 +73,17 @@ namespace SystemTravelAgency
 
         private void btnVC_Click(object sender, EventArgs e)
         {
-            ActiveButton(btnVC);
-            FormShow(new FormVendas());
+            //ActiveButton(btnVC);
+            //FormShow(new FormVendas());
+            MessageBox.Show("Este Modulo está em Desenvolvimento\n Em Breve...");
 
         }
 
         private void btnDash_Click(object sender, EventArgs e)
         {
-            ActiveButton(btnDash);
-            FormShow(new FormDash());
+            //ActiveButton(btnDash);
+            //FormShow(new FormDash());
+            MessageBox.Show("Este Modulo está em Desenvolvimento\n Em Breve...");
         }
 
         private void btnSair_Click(object sender, EventArgs e)

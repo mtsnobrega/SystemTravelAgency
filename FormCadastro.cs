@@ -7,39 +7,22 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ViaCep;
 using static SystemTravelAgency.Cliente;
 
 namespace SystemTravelAgency
 {
     public partial class FormCadastro : Form
     {
-        //private Form frmAtivo;
         public FormCadastro()
         {
             InitializeComponent();
-            //GerarGrid();
-            PreencherDataGridViewClientes(dataGridViewClientes);
+            BtnAniversario.Enabled = false;
         }
-        /*
-        private void GerarGrid()
-        {
-            dataGridViewClientes.Columns.Add("id", "Id");
-            dataGridViewClientes.Columns.Add("nome", "Nome");
-            dataGridViewClientes.Columns.Add("email", "Email");
-            dataGridViewClientes.Columns.Add("cpf", "CPF");
-            dataGridViewClientes.Columns.Add("rg", "RG");
-            dataGridViewClientes.Columns.Add("datanasc", "Data de Nascimento");
-            dataGridViewClientes.Columns.Add("endereco", "Endereço");
-            dataGridViewClientes.Columns.Add("numerocasa", "Número da Casa");
-            dataGridViewClientes.Columns.Add("cep", "CEP");
-            dataGridViewClientes.Columns.Add("estado", "Estado");
-            dataGridViewClientes.Columns.Add("celular", "Celular");
-            dataGridViewClientes.Columns.Add("genero", "Gênero");
-        }
-        */
-
+  
         //Metodo para limpar formuulario de cadastro
         public void LimparFormulario()
         {
@@ -51,16 +34,15 @@ namespace SystemTravelAgency
             txtENDERECO.Clear();
             txtN.Clear();
             txtCEP.Clear();
-            txtESTADO.SelectedIndex = -1;
+            txtESTADO.Clear();
+            txtCidade.Clear();
             txtGENERO.SelectedIndex = -1;
         }
-
-       
 
         private void Btnaddcliente_Click_1(object sender, EventArgs e)
         {
             DateTime data = datepicker.Value.Date;
-
+            
             try
             {
                 //uma função do c# que verifica se os campos de texto ou se a string é nula, vazia ou consiste apenas de espaços em branco
@@ -69,12 +51,11 @@ namespace SystemTravelAgency
                     string.IsNullOrWhiteSpace(txtENDERECO.Text) || string.IsNullOrWhiteSpace(txtN.Text) || string.IsNullOrWhiteSpace(txtCEP.Text)||
                     string.IsNullOrWhiteSpace(txtESTADO.Text))
                 {
-                    MessageBox.Show("Preencha todos os campos corretamente");
+                    MessageBox.Show("Preencha Todos os Campos Corretamente");
                     LimparFormulario();
                 }
                 else
                 {
-                    
                     string nome = txtNOME.Text;
                     string celular = txtCELULAR.Text;
                     string email = txtEMAIL.Text;
@@ -91,14 +72,12 @@ namespace SystemTravelAgency
 
                     if (novocliente.CadastrarClienteBancoDados())
                     {
-                        MessageBox.Show($"O cliente {nome} de CPF:{cpf} foi cadastrado");
+                        MessageBox.Show($"O cliente {nome} de CPF:{cpf} Foi Cadastrado");
                     }
                     else
                     {
                         MessageBox.Show("Erro ao cadastrar no banco de dados, contate o suporte ");
                     }
-
-                    //listaClientes.Add(novocliente);
                 }
             }
             catch (Exception ex)
@@ -141,14 +120,13 @@ namespace SystemTravelAgency
                 dataGridViewClientes.Columns["estado"].HeaderText = "Estado";
                 dataGridViewClientes.Columns["celular"].HeaderText = "Celular";
                 dataGridViewClientes.Columns["genero"].HeaderText = "Gênero";
+
+                BtnAniversario.Enabled = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Erro ao preencher o DataGridView com os clientes: " + ex.Message);
             }
-
-
-
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -156,35 +134,64 @@ namespace SystemTravelAgency
             PreencherDataGridViewClientes(dataGridViewClientes);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void BtnAniversario_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in dataGridViewClientes.Rows)
+            foreach (DataGridViewRow linha in dataGridViewClientes.Rows)
             {
                 // Verifica se a linha não é uma linha nova
-                if (!row.IsNewRow)
+                if (!linha.IsNewRow)
                 {
                     // Acessa a quarta coluna (índice 3) da linha atual, que contém a data de nascimento
-                    var cellValue = row.Cells[4].Value;
-
-                    if (cellValue != null && DateTime.TryParse(cellValue.ToString(), out DateTime birthDate))
+                    var mesnasc = linha.Cells[4].Value;
+                       
+                    if (mesnasc != null && DateTime.TryParse(mesnasc.ToString(), out DateTime nascido))
                     {
-                        // Compara o mês e o dia da data de nascimento com a data de hoje
-                        if (birthDate.Month == DateTime.Today.Month && birthDate.Day == DateTime.Today.Day)
+                        // variavel recebe o valor da data de nascimento e compara com o mes atual
+                        if (nascido.Month == DateTime.Today.Month)
                         {
-                            // É o aniversário da pessoa hoje
-                            Console.WriteLine($"Hoje é aniversário de uma pessoa na linha {row.Index}!");
-
-                            // Exemplo: Marcar a linha com uma cor diferente para destacar
-                            row.DefaultCellStyle.BackColor = Color.LightGreen;
+                            // marca a linha do datagrid para mostrar que a pessoa faz aniversario no mes atual
+                            linha.DefaultCellStyle.BackColor = Color.LightGreen;
                         }
                     }
                     else
                     {
-                        // Lida com valores de data inválidos ou nulos
-                        Console.WriteLine($"Data de nascimento inválida na linha {row.Index}");
                     }
                 }
             }
+        }
+        
+        private async void VerificarCep_Click(object sender, EventArgs e)
+        {
+            string cep = txtCEP.Text.Trim();
+            if (string.IsNullOrWhiteSpace(txtCEP.Text))
+            {
+                MessageBox.Show("insira um cep valido");
+                return;
+            }
+            else
+            {
+                try
+                {
+                    //API RESTful disponibilizada pelo ViaCep
+                    ViaCepClient client = new ViaCepClient();
+                    CancellationToken cancellationToken = new CancellationToken();
+                    var address = await client.SearchAsync(cep, cancellationToken);
+
+                    if (address == null || string.IsNullOrEmpty(address.Street))
+                    {
+                        MessageBox.Show($"O CEP: {cep}, não foi Localizado/Não Existe.");
+                        return;
+                    }
+
+                    txtCidade.Text = address.City ?? string.Empty;
+                    txtENDERECO.Text = address.Street ?? string.Empty;
+                    txtESTADO.Text = address.StateInitials ?? string.Empty;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao pesquisar Cep na APi " + ex.Message);
+                }
+            } 
         }
     }
 }

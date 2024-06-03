@@ -54,6 +54,12 @@
     <Reference Include="MySql.Data, Version=8.4.0.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>packages\MySql.Data.8.4.0\lib\net48\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json.Bson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.Bson.1.0.2\lib\net45\Newtonsoft.Json.Bson.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -73,6 +79,9 @@
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.Client.6.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
@@ -80,6 +89,8 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
@@ -93,6 +104,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="ViaCep, Version=4.1.511.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\ViaCep.4.1.511\lib\netstandard2.0\ViaCep.dll</HintPath>
+    </Reference>
     <Reference Include="ZstdSharp, Version=0.7.1.0, Culture=neutral, PublicKeyToken=8d151af33a4ad5cf, processorArchitecture=MSIL">
       <HintPath>packages\ZstdSharp.Port.0.7.1\lib\net461\ZstdSharp.dll</HintPath>
     </Reference>
@@ -118,6 +132,12 @@
     <Compile Include="FormDash.Designer.cs">
       <DependentUpon>FormDash.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormPacotes3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPacotes3.Designer.cs">
+      <DependentUpon>FormPacotes3.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormPacotes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,23 +150,29 @@
     <Compile Include="FormPacotes2.Designer.cs">
       <DependentUpon>FormPacotes2.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormPacotes3.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormPacotes3.Designer.cs">
-      <DependentUpon>FormPacotes3.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormVendas.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormVendas.Designer.cs">
       <DependentUpon>FormVendas.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormViagensCompra.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormViagensCompra.Designer.cs">
+      <DependentUpon>FormViagensCompra.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormViagens.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormViagens.Designer.cs">
       <DependentUpon>FormViagens.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormViagensFiltrar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormViagensFiltrar.Designer.cs">
+      <DependentUpon>FormViagensFiltrar.cs</DependentUpon>
     </Compile>
     <Compile Include="Home.cs">
       <SubType>Form</SubType>
@@ -172,20 +198,26 @@
     <EmbeddedResource Include="FormDash.resx">
       <DependentUpon>FormDash.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormPacotes3.resx">
+      <DependentUpon>FormPacotes3.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormPacotes.resx">
       <DependentUpon>FormPacotes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormPacotes2.resx">
       <DependentUpon>FormPacotes2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormPacotes3.resx">
-      <DependentUpon>FormPacotes3.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormVendas.resx">
       <DependentUpon>FormVendas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormViagens.resx">
       <DependentUpon>FormViagens.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormViagensCompra.resx">
+      <DependentUpon>FormViagensCompra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormViagensFiltrar.resx">
+      <DependentUpon>FormViagensFiltrar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Home.resx">
       <DependentUpon>Home.cs</DependentUpon>
